@@ -1,0 +1,19 @@
+- name: Install and set up devops tools
+  hosts: localhost
+  become: true
+  tasks:
+    - name: update the apt repo
+      command: apt-get update
+    - name: Install multiple packages
+      package: name={{item}} state=present
+      loop:
+        - git
+        - docker.io
+        - openjdk-17-jdk
+    - name: install jenkins
+      command: sudo apt-get install jenkins -y
+    - name: start jenkins and docker service
+      service: name={{item}} state=started
+      loop:
+        - jenkins
+        - docker

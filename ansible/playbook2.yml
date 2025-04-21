@@ -1,0 +1,14 @@
+- name: Install and set up devops tools
+  hosts: webserver
+  become: true
+  tasks:
+    - name: update the apt repo
+      command: apt-get update
+    - name: Install multiple packages
+      package: name={{item}} state=present
+      loop:
+        - git
+        - docker.io
+        - openjdk-17-jdk
+    - name: create jenkins root directory
+      file: path=/tmp/jenkinsdir state=directory
